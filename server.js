@@ -1,36 +1,48 @@
-import 'colors'
+import colors from 'colors'
 import dotenv from 'dotenv'
-import express from 'express'
 import morgan from 'morgan'
-import { errorHandler, notFound } from '#app/auth/auth.middleware'
-import routes from '#app/routes'
+import cors from 'cors'
+import express from 'express'
+import { expressMiddleware } from '@apollo/server/express4'
+import { apollo } from '#apollo'
 import { prisma } from '#prisma'
+import routes from '#app/routes'
+import { errorHandler, notFound } from '#app/auth/auth.middlewares'
 
 dotenv.config()
 
 const app = express()
 
-async function main() {
-  const isDev = process.env.NODE_ENV === 'dev';
-  if (isDev) app.use(morgan('dev'))
+await apollo.start()
 
-  app
-    .use(express.json())
-    .use('/api', routes)
-    .use(notFound)
-    .use(errorHandler)
+const isDev = process.env.NODE_ENV === 'dev'
+const port = process.env.PORT || 4000
 
-  const port = process.env.PORT || 5000
+if (isDev) app.use(morgan('dev'))
 
+app
+  .use(cors())
+  .use(express.json())
+  .use('/api', routes)
+  .use('/graphql', expressMiddleware(apollo))
+  //.use('/graphql', express.json(), expressMiddleware(apollo))
+  .use(notFound)
+  .use(errorHandler)
+
+await new Promise(() =>
   app.listen(
     port,
     console.log(
-      ('server running in ' + (isDev ? 'development' : 'production').yellow + ' mode on ' + port.yellow + ' port').bold
+      'Server running \n'.bold,
+      'in ' +
+        (isDev ? 'development' : 'production').yellow +
+        ' mode on ' +
+        port.yellow +
+        ' port\n',
+      'at ' + `http://localhost:${port}`.bold
     )
   )
-}
-
-main()
+)
   .then(async () => {
     await prisma.$disconnect
   })
