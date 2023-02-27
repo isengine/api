@@ -2,32 +2,30 @@ import 'colors'
 import dotenv from 'dotenv'
 import express from 'express'
 import morgan from 'morgan'
-import { errorHandler, notFound } from './app/auth/auth.middleware.js'
-import authRoutes from './app/auth/auth.routes.js'
-import userRoutes from './app/user/user.routes.js'
-import { prisma } from './prisma/prisma.js'
+import { errorHandler, notFound } from '#app/auth/auth.middleware'
+import routes from '#app/routes'
+import { prisma } from '#prisma'
 
 dotenv.config()
 
 const app = express()
 
 async function main() {
-  if (process.env.NODE_ENV === 'development') app.use(morgan('dev'))
+  const isDev = process.env.NODE_ENV === 'dev';
+  if (isDev) app.use(morgan('dev'))
 
   app
     .use(express.json())
-    .use('/api/auth', authRoutes)
-    .use('/api/user', userRoutes)
+    .use('/api', routes)
     .use(notFound)
     .use(errorHandler)
 
-  const PORT = process.env.PORT || 5000
+  const port = process.env.PORT || 5000
 
   app.listen(
-    PORT,
+    port,
     console.log(
-      `server running in ... mode on
-        port ${PORT}`.blue.bold
+      ('server running in ' + (isDev ? 'development' : 'production').yellow + ' mode on ' + port.yellow + ' port').bold
     )
   )
 }

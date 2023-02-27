@@ -14,8 +14,9 @@
     "test": "echo \"No test specified\" && exit 1"
   },
   "imports": {
-    "@/*": "./*",
-    "@src/*": "./src/*"
+    "#app/*": "./app/*.js",
+    "#prisma": "./prisma/prisma.js",
+    "#services/*": "./services/*.js"
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",

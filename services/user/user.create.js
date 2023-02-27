@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { hash } from 'argon2'
 
-import { prisma } from '../../prisma/prisma.js'
-import { userModel } from './user.model.js'
+import { prisma } from '#prisma'
+import { userModel } from '#services/user'
 
 export const userCreate = async (email, password) =>
   await prisma.user.create({

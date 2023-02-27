@@ -1,5 +1,5 @@
-import { prisma } from '../../prisma/prisma.js'
-import { userModel } from './user.model.js'
+import { prisma } from '#prisma'
+import { userModel } from '#services/user'
 
 export const userRead = async (id) =>
   await prisma.user.findUnique({

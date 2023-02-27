@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 
-import { userFind } from '../../models/user.js'
+import { userFind } from '#services/user'
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
