@@ -16,15 +16,15 @@ const app = express()
 await apollo.start()
 
 const isDev = process.env.NODE_ENV === 'dev'
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 5000
 
 if (isDev) app.use(morgan('dev'))
 
 app
   .use(cors())
   .use(express.json())
-  .use('/api', routes)
-  .use('/graphql', expressMiddleware(apollo))
+  .use(`/${process.env.API_BASE}`, routes)
+  .use(`/${process.env.GRAPHQL_BASE}`, expressMiddleware(apollo))
   //.use('/graphql', express.json(), expressMiddleware(apollo))
   .use(notFound)
   .use(errorHandler)
