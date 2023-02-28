@@ -16,8 +16,7 @@
   "imports": {
     "#api/*": "./api/*.js",
     "#apollo": "./apollo/apollo.js",
-    "#prisma": "./prisma/prisma.js",
-    "#view/*": "./view/*.js"
+    "#prisma": "./prisma/prisma.js"
   },
   "dependencies": {
     "@apollo/server": "^4.4.0",
