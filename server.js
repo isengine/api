@@ -6,21 +6,22 @@ import express from 'express'
 import { expressMiddleware } from '@apollo/server/express4'
 import { apollo } from '#apollo'
 import { prisma } from '#prisma'
-import routes from '#app/routes'
-import { errorHandler, notFound } from '#app/auth/auth.middlewares'
+import view from '#view/init'
+import routes from '#api/routes'
+import { errorHandler, notFound } from '#api/auth/auth.middlewares'
 
 dotenv.config()
 
-const app = express()
+const server = express()
 
 await apollo.start()
 
 const isDev = process.env.NODE_ENV === 'dev'
 const port = process.env.PORT || 5000
 
-if (isDev) app.use(morgan('dev'))
+if (isDev) server.use(morgan('dev'))
 
-app
+server
   .use(cors())
   .use(express.json())
   .use(`/${process.env.API_BASE}`, routes)
@@ -30,7 +31,7 @@ app
   .use(errorHandler)
 
 await new Promise(() =>
-  app.listen(
+  server.listen(
     port,
     console.log(
       'Server running \n'.bold,

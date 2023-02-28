@@ -14,9 +14,10 @@
     "test": "echo \"No test specified\" && exit 1"
   },
   "imports": {
-    "#app/*": "./app/*.js",
+    "#api/*": "./api/*.js",
     "#apollo": "./apollo/apollo.js",
-    "#prisma": "./prisma/prisma.js"
+    "#prisma": "./prisma/prisma.js",
+    "#view/*": "./view/*.js"
   },
   "dependencies": {
     "@apollo/server": "^4.4.0",

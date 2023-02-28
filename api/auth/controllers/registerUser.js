@@ -3,7 +3,7 @@ import {
   userCreate,
   userFind,
   userGenerateToken
-} from '#app/user/user.services'
+} from '#api/user/user.services'
 
 // @desc    Register user
 // @route   POST /api/register/login

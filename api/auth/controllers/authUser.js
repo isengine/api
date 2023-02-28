@@ -4,7 +4,7 @@ import {
   userFind,
   userGenerateToken,
   userVerifyPassword
-} from '#app/user/user.services'
+} from '#api/user/user.services'
 
 // @desc    Auth user
 // @route   POST /api/auth/login
