@@ -1,13 +1,13 @@
 import express from 'express'
-import { authTest, authUser, registerUser } from '#api/auth/auth.controllers'
-import { getUserProfile } from '#api/user/user.controllers'
-import { userProtect } from '#api/user/user.middlewares'
+import { authTest, authRead, authRegister } from '#api/auth/controllers'
+import { getUserProfile } from '#api/user/controllers'
+import { authProtect } from '#api/auth/middlewares'
 
 const router = express.Router()
 
 router.route('/auth/test').get(authTest)
-router.route('/auth/login').post(authUser)
-router.route('/auth/register').post(registerUser)
-router.route('/user/profile').get(userProtect, getUserProfile)
+router.route('/auth/login').post(authRead)
+router.route('/auth/register').post(authRegister)
+router.route('/user/profile').get(authProtect, getUserProfile)
 
 export default router

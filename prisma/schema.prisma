@@ -10,6 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Auth {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  login     String    @unique
+  password  String
+}
+
 model User {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now()) @map("created_at")

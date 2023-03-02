@@ -1,17 +1,17 @@
 import asyncHandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
-import { userRead } from '#api/user/user.services'
+import { authRead } from '#api/auth/services'
 
-export const userProtect = asyncHandler(async (req, res, next) => {
+export const authProtect = asyncHandler(async (req, res, next) => {
   let token
   if (req.headers.authorization?.startsWith('Bearer')) {
     token = req.headers.authorization.split(' ')[1]
 
-    const decoded = jwt.verify(token, process.env.JWT_TOKEN)
-    const userFound = await userRead(decoded.userId)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    const authFound = await authRead(decoded.authId)
 
-    if (userFound) {
-      req.user = userFound
+    if (authFound) {
+      req.auth = authFound
       next()
     } else {
       res.status(401)
