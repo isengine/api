@@ -11,33 +11,38 @@ datasource db {
 }
 
 model Auth {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  login     String    @unique
-  password  String
+  login         String    @unique
+  password      String
+  refreshToken  String?   @map("refresh_token")
+  confirmCode   String?   @map("confirm_code")
+  isActivated   Boolean   @default(false) @map("is_activated")
+  User          User[]
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  email     String    @unique
-  name      String
-  password  String
-  posts     Post[]
+  userId        Int?      @map("user_id")
+  email         String
+  name          String
+  auths         Auth?     @relation(fields: [userId], references: [id])
+  posts         Post[]
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  title     String
-  content   String?
-  published Boolean   @default(false)
-  author    User?     @relation(fields: [authorId], references: [id])
-  authorId  Int?
+  title         String
+  content       String?
+  published     Boolean   @default(false)
+  author        User?     @relation(fields: [authorId], references: [id])
+  authorId      Int?
 }
