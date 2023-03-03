@@ -20,7 +20,7 @@ model Auth {
   refreshToken  String?   @map("refresh_token")
   confirmCode   String?   @map("confirm_code")
   isActivated   Boolean   @default(false) @map("is_activated")
-  User          User[]
+  user          User[]
 }
 
 model User {
@@ -31,7 +31,7 @@ model User {
   userId        Int?      @map("user_id")
   email         String
   name          String
-  auths         Auth?     @relation(fields: [userId], references: [id])
+  auth          Auth?     @relation(fields: [userId], references: [id])
   posts         Post[]
 }
 

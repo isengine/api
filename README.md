@@ -122,15 +122,17 @@ Backend использует следующие технологии:
 ```
 bras
 ├── api
-│   ├── METHOD
-│   │   ├── controllers
-│   │   ├── middlewares
-│   │   ├── models
-│   │   ├── services
-│   │   ├── METHOD.controllers.js
-│   │   ├── METHOD.middlewares.js
-│   │   ├── METHOD.models.js
-│   │   └── METHOD.services.js
+│   ├── RESOURCE
+│   │   ├── controller
+│   │   ├── dto
+│   │   ├── middleware
+│   │   ├── model
+│   │   ├── service
+│   │   ├── RESOURCE.controller.js
+│   │   ├── RESOURCE.dto.js
+│   │   ├── RESOURCE.middleware.js
+│   │   ├── RESOURCE.model.js
+│   │   └── RESOURCE.service.js
 │   └── routes.js
 ├── prisma
 │   ├── prisma.js
@@ -293,6 +295,22 @@ Prisma дает возможность работать с любой из сл�
 ```shell script
 prisma migrate dev
 ```
+
+Чтобы настроить в Prisma зависимости между двумя таблицами, нужно связать обе таблицы.
+
+model Auth {
+  id            Int       @id @default(autoincrement())
+  ...
+  User          User[]
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  ...
+  userId        Int?      @map("user_id")
+  Auth          Auth?     @relation(fields: [userId], references: [id])
+}
+
 
 [^ к оглавлению](#оглавление)
 
