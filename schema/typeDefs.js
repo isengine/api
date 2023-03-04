@@ -1,39 +1,62 @@
 export const typeDefs = `#graphql
+  type Auth {
+    id:           ID!
+    createdAt:    String!
+    updatedAt:    String!
+    login:        String!
+    password:     String!
+    refreshToken: String
+    confirmCode:  String
+    isActivated:  Boolean!
+    user:         [User!]!
+  }
+
   type User {
-    email: String!
-    id: ID!
-    name: String
-    posts: [Post!]!
+    id:           ID!
+    createdAt:    String!
+    updatedAt:    String!
+    userId:       Int
+    email:        String!
+    name:         String!
+    posts:        [Post]
   }
 
   type Post {
-    content: String
-    id: ID!
-    published: Boolean!
-    title: String!
-    author: User
+    id:           ID!
+    createdAt:    String!
+    updatedAt:    String!
+    title:        String!
+    content:      String
+    published:    Boolean!
   }
 
   type Query {
-    feed: [Post!]!
-    post(id: ID!): Post
+    getAllUsers: [User]
+    getUser(id: ID): User
+    getAllPosts: [Post]
+    getPost(id: ID): Post
   }
 
   type Mutation {
-    createUser(data: UserCreateInput!): User!
-    createDraft(authorEmail: String, content: String, title: String!): Post!
-    publish(id: ID!): Post
-  }
-  
-  input UserCreateInput {
-    email: String!
-    name: String
-    posts: [PostCreateWithoutAuthorInput!]
+    createUser(input: UserInput): User
   }
 
-  input PostCreateWithoutAuthorInput {
-    content: String
-    published: Boolean
-    title: String!
+  input UserInput {
+    id:         ID
+    createdAt:  String
+    updatedAt:  String
+    userId:     Int
+    email:      String!
+    name:       String!
   }
+
+  input PostInput {
+    id:         ID
+    createdAt:  String
+    updatedAt:  String
+    title:      String!
+    content:    String!
+    published:  Boolean
+  }
+
 `
