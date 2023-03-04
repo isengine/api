@@ -1,10 +1,13 @@
 import { prisma } from '#prisma'
 import authDto from '#api/auth/auth.dto'
 
-export default async (id) =>
-  await prisma.auth.findUnique({
+export default async (userId) =>
+  await prisma.auth.update({
     where: {
-      id
+      id: userId
+    },
+    data: {
+      isActivated: true
     },
     select: authDto.model
   })

@@ -1,25 +1,52 @@
 import create from './service/create.js'
-import find from './service/find.js'
-import generateToken from './service/generateToken.js'
+import deleteRefreshToken from './service/deleteRefreshToken.js'
+import findByActivation from './service/findByActivation.js'
+import findByLogin from './service/findByLogin.js'
+import findToken from './service/findToken.js'
 import read from './service/read.js'
-import saveToken from './service/saveToken.js'
 import sendMail from './service/sendMail.js'
+import generateConfirmCode from './service/generateConfirmCode.js'
+import generateTokens from './service/generateTokens.js'
+import activate from './service/activate.js'
+import writeConfirmCode from './service/writeConfirmCode.js'
+import writeRefreshToken from './service/writeRefreshToken.js'
+import validateAccessToken from './service/validateAccessToken.js'
+import validateRefreshToken from './service/validateRefreshToken.js'
 import verifyPassword from './service/verifyPassword.js'
 
 class AuthService {
-  create = async (req, res, next) => create(req, res, next)
+  activate = async (userId) => activate(userId)
 
-  find = async (req, res, next) => find(req, res, next)
+  create = async (login, password) => create(login, password)
 
-  generateToken = async (req, res, next) => generateToken(req, res, next)
+  deleteRefreshToken = async (refreshToken) => deleteRefreshToken(refreshToken)
 
-  read = async (req, res, next) => read(req, res, next)
+  findByActivation = async (confirmCode) => findByActivation(confirmCode)
 
-  saveToken = async (req, res, next) => saveToken(req, res, next)
+  findByLogin = async (login) => findByLogin(login)
 
-  sendMail = async (req, res, next) => sendMail(req, res, next)
+  findToken = async (refreshToken) => findToken(refreshToken)
 
-  verifyPassword = async (req, res, next) => verifyPassword(req, res, next)
+  read = async (id) => read(id)
+
+  sendMail = async (to, activationCode) => sendMail(to, activationCode)
+
+  generateConfirmCode = (len, string) => generateConfirmCode(len, string)
+
+  generateTokens = (payload) => generateTokens(payload)
+
+  writeConfirmCode = async (userId, confirmCode) =>
+    writeConfirmCode(userId, confirmCode)
+
+  writeRefreshToken = async (userId, refreshToken) =>
+    writeRefreshToken(userId, refreshToken)
+
+  verifyPassword = async (password, hashedPassword) =>
+    verifyPassword(password, hashedPassword)
+
+  validateAccessToken = async (token) => validateAccessToken(token)
+
+  validateRefreshToken = async (token) => validateRefreshToken(token)
 }
 
 export default new AuthService()

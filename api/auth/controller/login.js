@@ -6,18 +6,28 @@ import authService from '#api/auth/auth.service'
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
   const { login, password } = req.body
-  const auth = await authService.find(login)
+  const auth = await authService.findByLogin(login)
 
   const isValidPassword = await authService.verifyPassword(
-    auth.password,
+    auth?.password,
     password
   )
 
-  if (auth && isValidPassword) {
-    const token = await authService.generateToken(auth)
-    res.json({ auth, token })
-  } else {
+  if (!auth || !auth?.isActivated || !isValidPassword) {
     res.status(401)
     throw new Error('Authorization data is not correct')
   }
+
+  const tokens = authService.generateTokens({
+    id: auth.id,
+    login: auth.login
+  })
+  await authService.writeRefreshToken(auth.id, tokens.refreshToken)
+
+  res.cookie('refreshToken', tokens.refreshToken, {
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    httpOnly: true
+  })
+
+  res.json({ ...auth, tokens })
 })

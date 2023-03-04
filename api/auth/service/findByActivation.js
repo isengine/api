@@ -1,10 +1,10 @@
 import { prisma } from '#prisma'
 import authDto from '#api/auth/auth.dto'
 
-export default async (id) =>
-  await prisma.auth.findUnique({
+export default async (confirmCode) =>
+  await prisma.auth.findFirst({
     where: {
-      id
+      confirmCode
     },
     select: authDto.model
   })

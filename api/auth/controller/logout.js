@@ -5,10 +5,10 @@ import authService from '#api/auth/auth.service'
 // @route   POST /api/auth/logout
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
-  const { login, password } = req.body
-  const auth = await authService.find(login)
+  const { refreshToken } = req.cookies
+  const token = await authService.deleteRefreshToken(refreshToken)
 
-  const result = await authService.verifyPassword(auth.password, password)
-
-  console.log(result)
+  res.clearCookie('refreshToken')
+  res.status(200)
+  res.json(token)
 })
