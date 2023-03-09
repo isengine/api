@@ -1,52 +1,58 @@
 import create from './service/create.js'
-import deleteRefreshToken from './service/deleteRefreshToken.js'
 import findByActivation from './service/findByActivation.js'
 import findByLogin from './service/findByLogin.js'
-import findToken from './service/findToken.js'
 import read from './service/read.js'
 import sendMail from './service/sendMail.js'
 import generateConfirmCode from './service/generateConfirmCode.js'
-import generateTokens from './service/generateTokens.js'
 import activate from './service/activate.js'
 import writeConfirmCode from './service/writeConfirmCode.js'
-import writeRefreshToken from './service/writeRefreshToken.js'
-import validateAccessToken from './service/validateAccessToken.js'
-import validateRefreshToken from './service/validateRefreshToken.js'
 import verifyPassword from './service/verifyPassword.js'
 
 class AuthService {
-  activate = async (userId) => activate(userId)
+  async activate(userId) {
+    const result = await activate(userId)
+    return result
+  }
 
-  create = async (login, password) => create(login, password)
+  async create(login, password) {
+    const result = await create(login, password)
+    return result
+  }
 
-  deleteRefreshToken = async (refreshToken) => deleteRefreshToken(refreshToken)
+  async findByActivation(confirmCode) {
+    const result = await findByActivation(confirmCode)
+    return result
+  }
 
-  findByActivation = async (confirmCode) => findByActivation(confirmCode)
+  async findByLogin(login) {
+    const result = await findByLogin(login)
+    return result
+  }
 
-  findByLogin = async (login) => findByLogin(login)
+  async read(id) {
+    const result = await read(id)
+    return result
+  }
 
-  findToken = async (refreshToken) => findToken(refreshToken)
+  async sendMail(to, activationCode) {
+    const result = await sendMail(to, activationCode)
+    return result
+  }
 
-  read = async (id) => read(id)
+  async generateConfirmCode(len, string) {
+    const result = await generateConfirmCode(len, string)
+    return result
+  }
 
-  sendMail = async (to, activationCode) => sendMail(to, activationCode)
+  async writeConfirmCode(userId, confirmCode) {
+    const result = await writeConfirmCode(userId, confirmCode)
+    return result
+  }
 
-  generateConfirmCode = (len, string) => generateConfirmCode(len, string)
-
-  generateTokens = (payload) => generateTokens(payload)
-
-  writeConfirmCode = async (userId, confirmCode) =>
-    writeConfirmCode(userId, confirmCode)
-
-  writeRefreshToken = async (userId, refreshToken) =>
-    writeRefreshToken(userId, refreshToken)
-
-  verifyPassword = async (password, hashedPassword) =>
-    verifyPassword(password, hashedPassword)
-
-  validateAccessToken = async (token) => validateAccessToken(token)
-
-  validateRefreshToken = async (token) => validateRefreshToken(token)
+  async verifyPassword(password, hashedPassword) {
+    const result = await verifyPassword(password, hashedPassword)
+    return result
+  }
 }
 
 export default new AuthService()

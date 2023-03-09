@@ -17,10 +17,22 @@ model Auth {
 
   login         String    @unique
   password      String
-  refreshToken  String?   @map("refresh_token")
   confirmCode   String?   @map("confirm_code")
   isActivated   Boolean   @default(false) @map("is_activated")
-  user          User[]
+  user          User?
+  token         Token[]
+}
+
+model Token {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  userId        Int?      @map("user_id")
+  token         String?   @map("refresh_token")
+  agent         String
+  ip            String
+  auth          Auth?     @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -28,7 +40,7 @@ model User {
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  userId        Int?      @map("user_id")
+  userId        Int?      @unique @map("user_id")
   email         String
   name          String
   auth          Auth?     @relation(fields: [userId], references: [id])

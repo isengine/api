@@ -1,8 +1,9 @@
 import asyncHandler from 'express-async-handler'
 
-// @desc    test error with throw
-// @route   GET /api/system/test_error_throw
+// @desc    test simple error
+// @route   GET /api/test/error
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
-  throw new Error('custom throwed error')
+  const a = 'string'
+  a.func()
 })

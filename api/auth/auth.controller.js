@@ -2,18 +2,27 @@ import activation from './controller/activation.js'
 import login from './controller/login.js'
 import logout from './controller/logout.js'
 import registration from './controller/registration.js'
-import refresh from './controller/refresh.js'
 
 class AuthController {
-  activation = async (req, res, next) => activation(req, res, next)
+  async activation(req, res, next) {
+    const result = await activation(req, res, next)
+    return result
+  }
 
-  login = async (req, res, next) => login(req, res, next)
+  async login(req, res, next) {
+    const result = await login(req, res, next)
+    return result
+  }
 
-  logout = async (req, res, next) => logout(req, res, next)
+  async logout(req, res, next) {
+    const result = await logout(req, res, next)
+    return result
+  }
 
-  registration = async (req, res, next) => registration(req, res, next)
-
-  refresh = async (req, res, next) => refresh(req, res, next)
+  async registration(req, res, next) {
+    const result = await registration(req, res, next)
+    return result
+  }
 }
 
 export default new AuthController()

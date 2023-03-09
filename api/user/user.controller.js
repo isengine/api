@@ -2,8 +2,15 @@ import getProfile from './controller/getProfile.js'
 import getUsers from './controller/getUsers.js'
 
 class UserController {
-  getProfile = async (req, res, next) => getProfile(req, res, next)
-  getUsers = async (req, res, next) => getUsers(req, res, next)
+  async getProfile(req, res, next) {
+    const result = await getProfile(req, res, next)
+    return result
+  }
+
+  async getUsers(req, res, next) {
+    const result = await getUsers(req, res, next)
+    return result
+  }
 }
 
 export default new UserController()

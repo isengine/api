@@ -2,9 +2,10 @@ import express from 'express'
 import { body } from 'express-validator'
 // import { authTest, authRead, authRegister } from '#api/auth/controllers'
 // import { getUserProfile } from '#api/user/controllers'
+import tokenMiddleware from '#api/token/token.middleware'
 import authController from '#api/auth/auth.controller'
-import authMiddleware from '#api/auth/auth.middleware'
-import systemController from '#api/system/system.controller'
+import testController from '#api/test/test.controller'
+import tokenController from '#api/token/token.controller'
 import userController from '#api/user/user.controller'
 
 const router = express.Router()
@@ -20,21 +21,19 @@ router
 router.route('/auth/login').post(authController.login)
 router.route('/auth/logout').post(authController.logout)
 router.route('/auth/activation/:link').get(authController.activation)
-router.route('/auth/refresh').get(authController.refresh)
+router.route('/auth/refresh').get(tokenController.refresh)
 
-router.route('/users').get(authMiddleware.validation, userController.getUsers)
+router.route('/users').get(tokenMiddleware.validation, userController.getUsers)
 
 router
   .route('/user/profile')
-  //.get(authMiddleware.protect, userController.getProfile)
+  //.get(tokenMiddleware.protect, userController.getProfile)
   .get(userController.getProfile)
 
-router.route('/system/test').get(systemController.test)
-router.route('/system/test_error').get(systemController.testError)
-router.route('/system/test_error_throw').get(systemController.testErrorThrow)
-router
-  .route('/system/test_error_try_catch')
-  .get(systemController.testErrorTryCatch)
+router.route('/test/test').get(testController.test)
+router.route('/test/error').get(testController.testError)
+router.route('/test/throw').get(testController.testThrow)
+router.route('/test/try_catch').get(testController.testTryCatch)
 
 //router.route('/user/profile').get(authController.getUser)
 

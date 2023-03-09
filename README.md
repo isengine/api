@@ -319,18 +319,17 @@ prisma migrate dev
 Чтобы настроить в Prisma зависимости между двумя таблицами, нужно связать обе таблицы.
 
 model Auth {
-  id            Int       @id @default(autoincrement())
-  ...
-  User          User[]
+id Int @id @default(autoincrement())
+...
+User User[]
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  ...
-  userId        Int?      @map("user_id")
-  Auth          Auth?     @relation(fields: [userId], references: [id])
+id Int @id @default(autoincrement())
+...
+userId Int? @map("user_id")
+Auth Auth? @relation(fields: [userId], references: [id])
 }
-
 
 [^ к оглавлению](#оглавление)
 
@@ -369,7 +368,7 @@ https://expressjs.com/ru/guide/database-integration.html
 
 > Например, в таблице **users** использовать поле **user_id**.
 
-Также при авторизации генерируется токен **jwt**. Для генерации используется ключ **JWT_SECRET** из переменных окружения. Можно также задать время жизни этого токена.
+Также при авторизации генерируется токен **jwt**. Для генерации используется ключ **JWT_ACCESS** из переменных окружения. Можно также задать время жизни этого токена.
 
 Наличие и проверка этого токена дает нам возможность убедиться, что запрос к API не является поддельным. За проверку отвечает middleware **authProtect**.
 

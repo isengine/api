@@ -4,13 +4,25 @@ import read from './service/read.js'
 import getAllUsers from './service/getAllUsers.js'
 
 class UserService {
-  create = async (req, res, next) => create(req, res, next)
+  async create(req, res, next) {
+    const result = await create(req, res, next)
+    return result
+  }
 
-  find = async (req, res, next) => find(req, res, next)
+  async find(req, res, next) {
+    const result = await find(req, res, next)
+    return result
+  }
 
-  read = async (req, res, next) => read(req, res, next)
+  async read(req, res, next) {
+    const result = await read(req, res, next)
+    return result
+  }
 
-  getAllUsers = async () => getAllUsers()
+  async getAllUsers() {
+    const result = await getAllUsers()
+    return result
+  }
 }
 
 export default new UserService()

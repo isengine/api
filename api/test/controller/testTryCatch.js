@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler'
 
 // @desc    test error with try/catch block
-// @route   GET /api/system/test_error_try_catch
+// @route   GET /api/test/try_catch
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
   const a = 'string'

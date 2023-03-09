@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser'
 import express from 'express'
 import { prisma } from '#prisma'
 import routes from '#api/routes'
-import systemMiddleware from '#api/system/system.middleware'
+import errorMiddleware from '#api/error/error.middleware'
 import { graphqlHTTP } from 'express-graphql'
 import { schema } from '#schema/schema'
 
@@ -28,8 +28,8 @@ server
   .use(cors())
   .use(`${process.env.API_BASE}`, routes)
   .use(`${process.env.GRAPHQL_BASE}`, graphqlHTTP({ schema, graphiql: isDev }))
-  .use(systemMiddleware.notFound)
-  .use(systemMiddleware.errorHandler)
+  .use(errorMiddleware.errorApi)
+  .use(errorMiddleware.notFound)
 
 await new Promise(() => server.listen(port, console.log(message)))
   .then(async () => {

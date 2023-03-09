@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import authService from '#api/auth/auth.service'
+import tokenService from '#api/token/token.service'
 
 // @desc    Auth login
 // @route   POST /api/auth/login
@@ -18,11 +19,11 @@ export default asyncHandler(async (req, res, next) => {
     throw new Error('Authorization data is not correct')
   }
 
-  const tokens = authService.generateTokens({
+  const tokens = tokenService.generateTokens({
     id: auth.id,
     login: auth.login
   })
-  await authService.writeRefreshToken(auth.id, tokens.refreshToken)
+  await tokenService.writeRefreshToken(auth.id, tokens.refreshToken)
 
   res.cookie('refreshToken', tokens.refreshToken, {
     maxAge: 30 * 24 * 60 * 60 * 1000,

@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import authService from '#api/auth/auth.service'
+import tokenService from '#api/token/token.service'
 
 export default asyncHandler(async (req, res, next) => {
   try {
@@ -15,7 +16,7 @@ export default asyncHandler(async (req, res, next) => {
       throw new Error("Not authorized, don't have token")
     }
 
-    const validToken = await authService.validateAccessToken(accessToken)
+    const validToken = await tokenService.validateAccessToken(accessToken)
     if (!validToken) {
       res.status(401)
       throw new Error('Not authorized, token is not valid')
