@@ -1,5 +1,6 @@
+import ErrorApi from '#api/error/error.api'
+
 export default (req, res, next) => {
-  const error = new Error(`Not Found - ${req.originalUrl}`)
-  res.status(404)
+  const error = ErrorApi.code(404, `Not Found ${req.originalUrl}`)
   next(error)
 }

@@ -28,8 +28,8 @@ server
   .use(cors())
   .use(`${process.env.API_BASE}`, routes)
   .use(`${process.env.GRAPHQL_BASE}`, graphqlHTTP({ schema, graphiql: isDev }))
-  .use(errorMiddleware.errorApi)
   .use(errorMiddleware.notFound)
+  .use(errorMiddleware.handler)
 
 await new Promise(() => server.listen(port, console.log(message)))
   .then(async () => {

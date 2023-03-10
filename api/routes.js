@@ -32,6 +32,8 @@ router
 
 router.route('/test/test').get(testController.test)
 router.route('/test/error').get(testController.testError)
+router.route('/test/code').get(testController.testCode)
+router.route('/test/message').get(testController.testMessage)
 router.route('/test/throw').get(testController.testThrow)
 router.route('/test/try_catch').get(testController.testTryCatch)
 

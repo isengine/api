@@ -1,9 +1,9 @@
 import notFound from './middleware/notFound.js'
-import errorApi from './middleware/errorApi.js'
+import handler from './middleware/handler.js'
 
 class ErrorMiddleware {
-  async errorApi(err, req, res, next) {
-    const result = await errorApi(err, req, res, next)
+  async handler(err, req, res, next) {
+    const result = await handler(err, req, res, next)
     return result
   }
 

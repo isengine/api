@@ -1,0 +1,12 @@
+model Auth {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  login         String    @unique
+  password      String
+  confirmCode   String?   @map("confirm_code")
+  isActivated   Boolean   @default(false) @map("is_activated")
+  user          User?
+  token         Token[]
+}

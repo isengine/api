@@ -1,18 +1,22 @@
-export class ErrorApi extends Error {
+import model from './dto/model.js'
+
+export default class extends Error {
+  code
   status
-  errors
 
-  constructor(status, message, errors) {
+  constructor(code, status, message) {
     super(message)
+    this.code = code
     this.status = status
-    this.errors = errors
   }
 
-  static unauthorizedError() {
-    return new ErrorApi(401, 'user is not authorized')
+  static code(code, message = undefined) {
+    const status = model[code]
+    return new this(code, status, message ?? status)
   }
 
-  static badRequest(message, errors = []) {
-    return new ErrorApi(404, message, errors)
+  static message(message) {
+    const status = model[400]
+    return new this(400, status, message)
   }
 }
