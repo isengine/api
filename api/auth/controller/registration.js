@@ -30,16 +30,27 @@ export default asyncHandler(async (req, res, next) => {
     email: login
   })
 
-  const confirmCode = authService.generateConfirmCode()
+  const confirmCode = await authService.generateConfirmCode()
   await authService.writeConfirmCode(auth.id, confirmCode)
 
   //await authService.sendMail(login, confirmCode)
 
-  const tokens = tokenService.generateTokens({
+  const agent = req.headers['user-agent']
+  const ip = req.ip
+
+  const tokens = await tokenService.generateTokens({
     id: auth.id,
-    login: auth.login
+    login: auth.login,
+    agent,
+    ip
   })
-  await tokenService.writeRefreshToken(auth.id, tokens.refreshToken)
+
+  await tokenService.writeRefreshToken({
+    userId: auth.id,
+    token: tokens.refreshToken,
+    agent,
+    ip
+  })
 
   res.cookie('refreshToken', tokens.refreshToken, {
     maxAge: 30 * 24 * 60 * 60 * 1000,

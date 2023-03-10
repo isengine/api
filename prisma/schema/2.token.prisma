@@ -5,7 +5,7 @@ model Token {
 
   userId        Int?      @map("user_id")
   token         String?   @map("refresh_token")
-  agent         String
-  ip            String
+  agent         String?
+  ip            String?
   auth          Auth?     @relation(fields: [userId], references: [id])
 }
