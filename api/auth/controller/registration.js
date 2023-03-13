@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import authService from '#api/auth/auth.service'
-import tokenService from '#api/token/token.service'
+import confirmManager from '#api/confirm/confirm.manager'
+import tokenManager from '#api/token/token.manager'
 import userService from '#api/user/user.service'
 import { validationResult } from 'express-validator'
 
@@ -30,32 +31,14 @@ export default asyncHandler(async (req, res, next) => {
     email: login
   })
 
-  const confirmCode = await authService.generateConfirmCode()
-  await authService.writeConfirmCode(auth.id, confirmCode)
-
-  //await authService.sendMail(login, confirmCode)
-
-  const agent = req.headers['user-agent']
-  const ip = req.ip
-
-  const tokens = await tokenService.generateTokens({
-    id: auth.id,
-    login: auth.login,
-    agent,
-    ip
-  })
-
-  await tokenService.writeRefreshToken({
+  await confirmManager.create({
     userId: auth.id,
-    token: tokens.refreshToken,
-    agent,
-    ip
+    type: 'num',
+    len: 4
   })
+  //await confirmManager.sendMail(login)
 
-  res.cookie('refreshToken', tokens.refreshToken, {
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    httpOnly: true
-  })
+  const tokens = await tokenManager.create(req, res, next, auth)
 
   res.json({ ...auth, tokens })
 })

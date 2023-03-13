@@ -1,13 +1,15 @@
 import { prisma } from '#prisma'
-import authDto from '#api/auth/auth.dto'
 
 export default async (userId, confirmCode) =>
-  await prisma.auth.update({
+  await prisma.confirm.upsert({
     where: {
-      id: userId
+      userId
     },
-    data: {
+    create: {
+      userId,
       confirmCode
     },
-    select: authDto.model
+    update: {
+      confirmCode
+    }
   })

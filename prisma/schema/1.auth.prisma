@@ -5,8 +5,8 @@ model Auth {
 
   login         String    @unique
   password      String
-  confirmCode   String?   @map("confirm_code")
   isActivated   Boolean   @default(false) @map("is_activated")
   user          User?
+  confirm       Confirm?
   token         Token[]
 }

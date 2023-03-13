@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import authService from '#api/auth/auth.service'
+import confirmService from '#api/confirm/confirm.service'
 
 // @desc    Auth activate
 // @route   POST /api/auth/activate
@@ -7,7 +8,7 @@ import authService from '#api/auth/auth.service'
 export default asyncHandler(async (req, res, next) => {
   const link = req.params.link
 
-  const auth = await authService.findByActivation(link)
+  const auth = await confirmService.find(link)
   if (!auth) {
     throw new Error('invalid activation link')
   }

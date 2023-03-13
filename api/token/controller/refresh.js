@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import tokenService from '#api/token/token.service'
+import tokenManager from '#api/token/token.manager'
 
 // @desc    Token refresh
 // @route   POST /api/token/refresh
@@ -23,27 +24,7 @@ export default asyncHandler(async (req, res, next) => {
   const user = await authService.findByLogin(usedData.id)
   */
 
-  const agent = req.headers['user-agent']
-  const ip = req.ip
+  const tokens = await tokenManager.create(req, res, next, auth)
 
-  const tokens = await tokenService.generateTokens({
-    id: auth.id,
-    login: auth.login,
-    agent,
-    ip
-  })
-
-  await tokenService.writeRefreshToken({
-    userId: auth.id,
-    token: tokens.refreshToken,
-    agent,
-    ip
-  })
-
-  res
-    .cookie('refreshToken', tokens.refreshToken, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: true
-    })
-    .json({ ...auth, tokens })
+  res.json({ ...auth, tokens })
 })

@@ -1,11 +1,8 @@
 import create from './service/create.js'
-import findByActivation from './service/findByActivation.js'
 import findByLogin from './service/findByLogin.js'
 import read from './service/read.js'
 import sendMail from './service/sendMail.js'
-import generateConfirmCode from './service/generateConfirmCode.js'
 import activate from './service/activate.js'
-import writeConfirmCode from './service/writeConfirmCode.js'
 import verifyPassword from './service/verifyPassword.js'
 
 class AuthService {
@@ -16,11 +13,6 @@ class AuthService {
 
   async create(login, password) {
     const result = await create(login, password)
-    return result
-  }
-
-  async findByActivation(confirmCode) {
-    const result = await findByActivation(confirmCode)
     return result
   }
 
@@ -36,16 +28,6 @@ class AuthService {
 
   async sendMail(to, activationCode) {
     const result = await sendMail(to, activationCode)
-    return result
-  }
-
-  async generateConfirmCode(len, string) {
-    const result = await generateConfirmCode(len, string)
-    return result
-  }
-
-  async writeConfirmCode(userId, confirmCode) {
-    const result = await writeConfirmCode(userId, confirmCode)
     return result
   }
 

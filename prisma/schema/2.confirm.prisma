@@ -1,0 +1,9 @@
+model Confirm {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  userId        Int       @unique @map("user_id")
+  confirmCode   String    @unique @map("confirm_code")
+  auth          Auth      @relation(fields: [userId], references: [id])
+}
