@@ -10,7 +10,7 @@ import { validationResult } from 'express-validator'
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
   const errors = validationResult(req)
-  console.log('errors', errors)
+
   if (!errors.isEmpty()) {
     res.status(400)
     throw new Error('Invalid validation')
@@ -26,6 +26,7 @@ export default asyncHandler(async (req, res, next) => {
   }
 
   const auth = await authService.create(login, password)
+
   await userService.create({
     id: auth.id,
     email: login

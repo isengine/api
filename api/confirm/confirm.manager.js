@@ -18,6 +18,7 @@ class ConfirmManager {
       } else {
         this.code = await confirmController.generateString(len)
       }
+      this.code += `.${userId}`
       find = await confirmService.find(this.code)
       success = !find
     }
