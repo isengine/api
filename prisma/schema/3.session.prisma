@@ -1,10 +1,11 @@
-model Token {
+model Session {
   id            Int       @id @default(autoincrement())
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
   userId        Int?      @map("user_id")
-  token         String?   @map("refresh_token")
+  token         String?
+  secret        String?
   agent         String?
   ip            String?
   auth          Auth?     @relation(fields: [userId], references: [id])

@@ -4,14 +4,12 @@ import morgan from 'morgan'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import express from 'express'
-import session from 'express-session'
-import passport from 'passport'
-import '#api/passport/passport.strategies'
 import { prisma } from '#prisma'
 import routes from '#api/routes'
 import errorMiddleware from '#api/error/error.middleware'
 import { graphqlHTTP } from 'express-graphql'
 import { schema } from '#schema/schema'
+import '#api/passport/passport.strategy'
 
 dotenv.config()
 
@@ -29,18 +27,6 @@ server
   .use(express.json())
   .use(cookieParser())
   .use(cors())
-  .use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      cookie: {
-        secure: isDev ? 'auto' : 'true',
-        secure: isDev ? 'lax' : 'none'
-      },
-      resave: false,
-      saveUninitialized: false
-    })
-  )
-  .use(passport.authenticate('session'))
   .use(`${process.env.API_BASE}`, routes)
   .use(`${process.env.GRAPHQL_BASE}`, graphqlHTTP({ schema, graphiql: isDev }))
   .use(errorMiddleware.notFound)

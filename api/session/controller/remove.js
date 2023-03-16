@@ -5,8 +5,11 @@ import sessionService from '#api/session/session.service'
 // @route   POST /api/auth/logout
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
-  await sessionService.remove(req, res, next)
+  const { token } = req.cookies
 
-  res.status(200)
-  res.json({})
+  const validateToken = await sessionService.validateToken(token)
+
+  await sessionService.deleteSession(validateToken)
+
+  res.clearCookie('token')
 })

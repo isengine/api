@@ -4,8 +4,6 @@ import passport from 'passport'
 
 dotenv.config()
 
-const successUrl = process.env.API_BASE + '/passport/success'
-
 class PassportController {
   fail(req, res, next) {
     throw ErrorApi.code(401, 'Passport auth is fail')
@@ -20,11 +18,11 @@ class PassportController {
   googleCallback = passport.authenticate(
     'google',
     {
-      session: true,
-      failureRedirect: '/'
+      session: false,
+      failureRedirect: process.env.API_BASE + '/passport/fail'
     },
     function (req, res) {
-      res.redirect(successUrl)
+      res.redirect(process.env.API_BASE + '/passport/success')
     }
   )
 }

@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import authService from '#api/auth/auth.service'
 import confirmManager from '#api/confirm/confirm.manager'
-import tokenManager from '#api/token/token.manager'
+import sessionController from '#api/session/session.controller'
 import userService from '#api/user/user.service'
 import { validationResult } from 'express-validator'
 
@@ -39,7 +39,7 @@ export default asyncHandler(async (req, res, next) => {
   })
   //await confirmManager.sendMail(login)
 
-  const tokens = await tokenManager.create(req, res, next, auth)
+  const session = await sessionController.create(req, res, next, auth.id)
 
-  res.json({ ...auth, tokens })
+  res.json({ ...auth, session })
 })
