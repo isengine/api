@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
-import authService from '#api/auth/auth.service'
 import sessionService from '#api/session/session.service'
+import sessionController from '#api/session/session.controller'
+
 import ErrorApi from '#api/error/error.api'
 
 export default asyncHandler(async (req, res, next) => {
@@ -9,7 +10,7 @@ export default asyncHandler(async (req, res, next) => {
     : undefined
 
   if (!secret) {
-    await sessionService.remove(req, res, next)
+    await sessionController.remove(req, res, next)
     throw ErrorApi.code(401, "Don't have secret")
   }
 
@@ -20,7 +21,7 @@ export default asyncHandler(async (req, res, next) => {
   const validToken = sessionService.validateToken(token)
 
   if (!validToken || validToken.ip !== ip || validToken.agent !== agent) {
-    await sessionService.remove(req, res, next)
+    await sessionController.remove(req, res, next)
     throw ErrorApi.code(401, 'Token failed or expired')
   }
 
@@ -31,7 +32,7 @@ export default asyncHandler(async (req, res, next) => {
     session.userId !== validToken.userId ||
     session.secret !== secret
   ) {
-    await sessionService.remove(req, res, next)
+    await sessionController.remove(req, res, next)
     throw ErrorApi.code(401, 'Session failed')
   }
 

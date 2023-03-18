@@ -1,8 +1,8 @@
 import { prisma } from '#prisma'
 
-export default async (email) =>
+export default async (userId) =>
   await prisma.user.findUnique({
     where: {
-      email
+      userId
     }
   })

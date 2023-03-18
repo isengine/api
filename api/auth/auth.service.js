@@ -1,4 +1,5 @@
 import create from './service/create.js'
+import createByPassport from './service/createByPassport.js'
 import findByLogin from './service/findByLogin.js'
 import read from './service/read.js'
 import sendMail from './service/sendMail.js'
@@ -13,6 +14,11 @@ class AuthService {
 
   async create(login, password) {
     const result = await create(login, password)
+    return result
+  }
+
+  async createByPassport(data) {
+    const result = await createByPassport(data)
     return result
   }
 

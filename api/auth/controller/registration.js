@@ -28,7 +28,7 @@ export default asyncHandler(async (req, res, next) => {
   const auth = await authService.create(login, password)
 
   await userService.create({
-    id: auth.id,
+    userId: auth.id,
     email: login
   })
 

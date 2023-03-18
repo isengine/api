@@ -1,6 +1,8 @@
 import dotenv from 'dotenv'
 import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
+import authService from '#api/auth/auth.service'
+import userService from '#api/user/user.service'
 
 dotenv.config()
 
@@ -12,22 +14,11 @@ passport.use(
       callbackURL: process.env.API_BASE + '/passport/google/callback',
       scope: ['profile', 'email']
     },
-    (accessToken, refreshToken, profile, callback) => {
-      const account = profile._json
-      // profile.id
-      console.log('account', account)
-      console.log('profile', profile)
-
-      const auth = { account, profile }
-      /*
-      - create auth
-      - create user
-      - create session
-      */
-
-      //return callback('passport error', undefined)
-
-      return callback(undefined, auth)
+    async (accessToken, refreshToken, profile, callback) => {
+      return callback(undefined, profile)
+      // МОЖЕТ, ЭТОТ КОЛБЕК ПЕРЕДАСТ ДАННЫЕ ВО ВНЕШНЮЮ ФУНКЦИЮ В КОНТРОЛЛЕРЕ?
+      // ДА, так и есть - в req.user
+      // может, тогда имеет смысл передать целиком profile?
 
       //User.findOrCreate({ googleId: profile.id }, function (err, user) {
       //  return callback(err, user);

@@ -28,7 +28,77 @@ router.route('/session/remove').get(sessionController.remove)
 router.route('/passport/fail').get(passportController.fail)
 router.route('/passport/success').get(passportController.success)
 router.route('/passport/google').get(passportController.googleAuth)
-router.route('/passport/google/callback').get(passportController.googleCallback)
+router
+  .route('/passport/google/callback')
+  .get(passportController.googleCallback, function (req, res) {
+    /*
+      const account = profile._json
+
+      console.log('account', account)
+      console.log('profile', profile)
+
+      let auth
+      auth = await authService.findByLogin(account.email)
+      if (!auth) {
+        auth = await authService.createByPassport({
+          login: account.email,
+          is_activated: true,
+          provider: profile.provider,
+          providerId: profile.id
+        })
+      }
+
+      let user
+      user = await userService.find(auth.id)
+      if (!user) {
+        await userService.create({
+          userId: auth.id,
+          email: account.email,
+          name: account.name,
+          avatar: account.avatar,
+          locale: account.locale
+        })
+      }
+*/
+
+    //const session = await sessionController.create(
+    //  req,
+    //  res,
+    //  undefined,
+    //  auth.id
+    //)
+    //res.json({ ...auth, session })
+
+    /*
+      - create auth
+      - activate auth
+      - create user
+      - create session
+      */
+
+    const profile = req.user
+    //const account = profile._json
+
+    console.log('---\n---\n---'.red)
+    console.log('profile', profile)
+    //console.log('account', account)
+
+    //console.log('req', req)
+    //console.log('res', res)
+
+    //НУЖНЫ ВНЕШНИЕ ДАННЫЕ - auth.userId и др
+    //const session = await sessionController.create(
+    //  req,
+    //  res,
+    //  undefined,
+    //  auth.id
+    //)
+    //res.json({ ...auth, session })
+
+    //const session = await sessionController.create(req, res, undefined, auth.id)
+    //res.json({ ...auth, session })
+    //res.redirect(process.env.API_BASE + '/passport/success')
+  })
 
 router.route('/users').get(sessionMiddleware.validate, userController.getUsers)
 

@@ -6,7 +6,7 @@ model Auth {
   login         String    @unique
   password      String?
   provider      String?
-  providerId    String?
+  providerId    String?   @map("provider_id")
   isActivated   Boolean   @default(false) @map("is_activated")
   user          User?
   confirm       Confirm?

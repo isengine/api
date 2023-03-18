@@ -21,11 +21,6 @@ class TestController {
     return result
   }
 
-  async testMessage(req, res, next) {
-    const result = await testMessage(req, res, next)
-    return result
-  }
-
   async testThrow(req, res, next) {
     const result = await testThrow(req, res, next)
     return result
