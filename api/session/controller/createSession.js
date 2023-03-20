@@ -8,19 +8,23 @@ export default asyncHandler(async (req, res, next, userId) => {
   const agent = req.headers['user-agent']
   const ip = req.ip
 
-  const secret = await sessionService.generateSecret()
-  const token = await sessionService.generateToken({
+  const payload = {
     userId,
     ip,
     agent
-  })
+  }
+
+  const token = await sessionService.generateAccess(payload)
+  const secret = await sessionService.generateRefresh(payload)
 
   const session = { userId, ip, agent, token, secret }
 
   await sessionService.createSession(session)
 
-  res.cookie('token', token, {
+  res.cookie('token', secret, {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true
   })
+
+  return token
 })

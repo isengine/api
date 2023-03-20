@@ -16,13 +16,6 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, callback) => {
       return callback(undefined, profile)
-      // МОЖЕТ, ЭТОТ КОЛБЕК ПЕРЕДАСТ ДАННЫЕ ВО ВНЕШНЮЮ ФУНКЦИЮ В КОНТРОЛЛЕРЕ?
-      // ДА, так и есть - в req.user
-      // может, тогда имеет смысл передать целиком profile?
-
-      //User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      //  return callback(err, user);
-      //});
     }
   )
 )

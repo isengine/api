@@ -1,9 +1,10 @@
 import createSession from './service/createSession.js'
 import deleteSession from './service/deleteSession.js'
 import findSession from './service/findSession.js'
-import generateSecret from './service/generateSecret.js'
-import generateToken from './service/generateToken.js'
-import validateToken from './service/validateToken.js'
+import generateRefresh from './service/generateRefresh.js'
+import generateAccess from './service/generateAccess.js'
+import validateRefresh from './service/validateRefresh.js'
+import validateAccess from './service/validateAccess.js'
 
 class SessionService {
   async createSession(payload) {
@@ -21,18 +22,23 @@ class SessionService {
     return result
   }
 
-  async generateSecret() {
-    const result = await generateSecret()
+  async generateAccess(payload) {
+    const result = await generateAccess(payload)
     return result
   }
 
-  async generateToken(payload) {
-    const result = await generateToken(payload)
+  async generateRefresh(payload) {
+    const result = await generateRefresh(payload)
     return result
   }
 
-  async validateToken(token) {
-    const result = await validateToken(token)
+  async validateAccess(token) {
+    const result = await validateAccess(token)
+    return result
+  }
+
+  async validateRefresh(token) {
+    const result = await validateRefresh(token)
     return result
   }
 }

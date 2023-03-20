@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import sessionService from '#api/session/session.service'
+import ErrorApi from '#api/error/error.api'
 
 // @desc    Auth logout
 // @route   POST /api/auth/logout
@@ -7,9 +8,11 @@ import sessionService from '#api/session/session.service'
 export default asyncHandler(async (req, res, next) => {
   const { token } = req.cookies
 
-  const validateToken = await sessionService.validateToken(token)
+  const validToken = await sessionService.validateRefresh(token)
 
-  await sessionService.deleteSession(validateToken)
+  if (!validToken) {
+    throw ErrorApi.code(401, 'Token failed or expired')
+  }
 
   res.clearCookie('token')
 })

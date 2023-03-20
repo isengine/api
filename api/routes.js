@@ -4,12 +4,15 @@ import { body } from 'express-validator'
 import authController from '#api/auth/auth.controller'
 import passportController from '#api/passport/passport.controller'
 import testController from '#api/test/test.controller'
-import sessionController from '#api/session/session.controller'
 import sessionMiddleware from '#api/session/session.middleware'
 import userController from '#api/user/user.controller'
 
 const router = express.Router()
 
+router.route('/auth/activation/:link').get(authController.activation)
+router.route('/auth/login').post(authController.login)
+router.route('/auth/logout').post(authController.logout)
+router.route('/auth/refresh').get(authController.refresh)
 router
   .route('/auth/registration')
   .post(
@@ -17,13 +20,6 @@ router
     body('password').isLength({ min: 6, max: 32 }),
     authController.registration
   )
-
-router.route('/auth/login').post(authController.login)
-router.route('/auth/logout').post(authController.logout)
-router.route('/auth/activation/:link').get(authController.activation)
-
-router.route('/session/create').get(sessionController.create)
-router.route('/session/remove').get(sessionController.remove)
 
 router.route('/passport/fail').get(passportController.fail)
 router.route('/passport/success').get(passportController.success)
@@ -43,8 +39,8 @@ router
         auth = await authService.createByPassport({
           login: account.email,
           is_activated: true,
-          provider: profile.provider,
-          providerId: profile.id
+          passportStrategy: profile.provider,
+          passportId: profile.id
         })
       }
 
@@ -61,7 +57,7 @@ router
       }
 */
 
-    //const session = await sessionController.create(
+    //const session = await sessionController.createSession(
     //  req,
     //  res,
     //  undefined,
@@ -87,7 +83,7 @@ router
     //console.log('res', res)
 
     //НУЖНЫ ВНЕШНИЕ ДАННЫЕ - auth.userId и др
-    //const session = await sessionController.create(
+    //const session = await sessionController.createSession(
     //  req,
     //  res,
     //  undefined,
@@ -95,12 +91,15 @@ router
     //)
     //res.json({ ...auth, session })
 
-    //const session = await sessionController.create(req, res, undefined, auth.id)
+    //const session = await sessionController.createSession(req, res, undefined, auth.id)
     //res.json({ ...auth, session })
     //res.redirect(process.env.API_BASE + '/passport/success')
   })
 
-router.route('/users').get(sessionMiddleware.validate, userController.getUsers)
+router
+  .route('/users')
+  //.get(sessionMiddleware.validateTokens, userController.getUsers)
+  .get(sessionMiddleware.validateSession, userController.getUsers)
 
 router
   .route('/user/profile')
@@ -110,7 +109,6 @@ router
 router.route('/test/test').get(testController.test)
 router.route('/test/error').get(testController.testError)
 router.route('/test/code').get(testController.testCode)
-router.route('/test/message').get(testController.testMessage)
 router.route('/test/throw').get(testController.testThrow)
 router.route('/test/try_catch').get(testController.testTryCatch)
 

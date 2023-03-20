@@ -7,8 +7,8 @@ dotenv.config()
 
 class PassportController {
   async fail(req, res, next) {
+    await sessionController.deleteSession(req, res, next)
     throw ErrorApi.code(401, 'Passport auth is fail')
-    await sessionController.remove()
   }
 
   async success(req, res, next) {

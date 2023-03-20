@@ -1,7 +1,6 @@
 import test from './controller/test.js'
 import testError from './controller/testError.js'
 import testCode from './controller/testCode.js'
-import testMessage from './controller/testMessage.js'
 import testThrow from './controller/testThrow.js'
 import testTryCatch from './controller/testTryCatch.js'
 

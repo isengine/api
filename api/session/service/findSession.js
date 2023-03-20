@@ -1,10 +1,12 @@
 import { prisma } from '#prisma'
 
-export default async ({ ip, agent, token }) =>
+export default async ({ userId, ip, agent, token, secret }) =>
   await prisma.session.findFirst({
     where: {
+      userId,
       ip,
       agent,
-      token
+      token,
+      secret
     }
   })

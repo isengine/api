@@ -39,7 +39,8 @@ export default asyncHandler(async (req, res, next) => {
   })
   //await confirmManager.sendMail(login)
 
-  const session = await sessionController.create(req, res, next, auth.id)
+  const token = await sessionController.createSession(req, res, next, auth.id)
+  //const token = await sessionController.createTokens(req, res, next, auth.id)
 
-  res.json({ ...auth, session })
+  res.json({ ...auth, token })
 })
