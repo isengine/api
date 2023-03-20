@@ -3,18 +3,29 @@ import generateString from './controller/generateString.js'
 import sendMail from './controller/sendMail.js'
 
 class ConfirmController {
-  async generateNum(len) {
-    const result = await generateNum(len)
-    return result
+  code
+
+  async create(data) {
+    const { len, type, userId } = data
+
+    let find
+    let success
+
+    while (!success) {
+      if (type === 'num') {
+        this.code = await generateNum(len)
+      } else {
+        this.code = await generateString(len)
+      }
+      this.code += `.${userId}`
+      find = await confirmService.find(this.code)
+      success = !find
+    }
+    await confirmService.write(userId, this.code)
   }
 
-  async generateString(len) {
-    const result = await generateString(len)
-    return result
-  }
-
-  async sendMail(to, confirmCode) {
-    const result = await sendMail(to, confirmCode)
+  async sendMail(to) {
+    const result = await sendMail(to, this.code)
     return result
   }
 }

@@ -2,9 +2,6 @@ import asyncHandler from 'express-async-handler'
 import sessionService from '#api/session/session.service'
 import ErrorApi from '#api/error/error.api'
 
-// @desc    Token refresh
-// @route   POST /api/token/refresh
-// @access  Public
 export default asyncHandler(async (req, res, next) => {
   const { token } = req.cookies
   const validToken = await sessionService.validateRefresh(token)

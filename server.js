@@ -9,7 +9,6 @@ import routes from '#api/routes'
 import errorMiddleware from '#api/error/error.middleware'
 import { graphqlHTTP } from 'express-graphql'
 import { schema } from '#schema/schema'
-import '#api/passport/passport.strategy'
 
 dotenv.config()
 

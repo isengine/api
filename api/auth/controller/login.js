@@ -4,6 +4,7 @@ import sessionController from '#api/session/session.controller'
 
 // @desc    Auth login
 // @route   POST /api/auth/login
+// @param   BODY { login, password }
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
   const { login, password } = req.body

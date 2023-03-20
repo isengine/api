@@ -3,6 +3,7 @@ import sessionController from '#api/session/session.controller'
 
 // @desc    Auth logout
 // @route   POST /api/auth/logout
+// @param   COOKIE { token }
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
   await sessionController.deleteSession(req, res, next)

@@ -37,6 +37,6 @@ export default asyncHandler(async (req, res, next) => {
     throw ErrorApi.code(401, 'Session failed')
   }
 
-  // создать токены заново
+  // здесь нужно создать токены заново
   next()
 })

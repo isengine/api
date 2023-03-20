@@ -2,8 +2,8 @@ import asyncHandler from 'express-async-handler'
 import authService from '#api/auth/auth.service'
 import confirmService from '#api/confirm/confirm.service'
 
-// @desc    Auth activate
-// @route   POST /api/auth/activate
+// @desc    Auth activation
+// @route   GET /api/auth/activation/:confirmCode
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
   const link = req.params.link

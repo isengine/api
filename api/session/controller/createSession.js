@@ -1,9 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import sessionService from '#api/session/session.service'
 
-// @desc    Token refresh
-// @route   POST /api/token/refresh
-// @access  Public
 export default asyncHandler(async (req, res, next, userId) => {
   const agent = req.headers['user-agent']
   const ip = req.ip

@@ -1,8 +1,6 @@
 import dotenv from 'dotenv'
 import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
-import authService from '#api/auth/auth.service'
-import userService from '#api/user/user.service'
 
 dotenv.config()
 

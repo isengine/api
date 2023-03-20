@@ -1,12 +1,13 @@
 import asyncHandler from 'express-async-handler'
 import authService from '#api/auth/auth.service'
-import confirmManager from '#api/confirm/confirm.manager'
+import confirmController from '#api/confirm/confirm.controller'
 import sessionController from '#api/session/session.controller'
 import userService from '#api/user/user.service'
 import { validationResult } from 'express-validator'
 
-// @desc    Register auth
-// @route   POST /api/auth/register
+// @desc    Auth registration new user
+// @route   POST /api/auth/registration
+// @param   BODY { login, password }
 // @access  Public
 export default asyncHandler(async (req, res, next) => {
   const errors = validationResult(req)
@@ -32,12 +33,12 @@ export default asyncHandler(async (req, res, next) => {
     email: login
   })
 
-  await confirmManager.create({
+  await confirmController.create({
     userId: auth.id,
     type: 'num',
     len: 4
   })
-  //await confirmManager.sendMail(login)
+  //await confirmController.sendMail(login)
 
   const token = await sessionController.createSession(req, res, next, auth.id)
   //const token = await sessionController.createTokens(req, res, next, auth.id)
