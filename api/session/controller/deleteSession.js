@@ -14,4 +14,5 @@ export default asyncHandler(async (req, res, next) => {
   await sessionService.deleteSession(validToken)
 
   res.clearCookie('token')
+  res.locals.token = ''
 })

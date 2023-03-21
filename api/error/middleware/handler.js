@@ -1,4 +1,5 @@
 import ErrorApi from '#api/error/error.api'
+import sessionMiddleware from '#api/session/session.middleware'
 
 export default (err, req, res, next) => {
   const isDev = process.env.NODE_ENV === 'dev'
@@ -13,5 +14,9 @@ export default (err, req, res, next) => {
   if (isDev) {
     console.log(`Error ${code}: ${error?.message}`.red)
   }
-  return res.status(code).json(error)
+
+  res.locals.code = code
+  res.locals.error = error
+
+  sessionMiddleware.resApi(req, res)
 }

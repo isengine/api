@@ -4,11 +4,11 @@ import sessionController from '#api/session/session.controller'
 import ErrorApi from '#api/error/error.api'
 
 export default asyncHandler(async (req, res, next) => {
-  const secret = req.headers.authorization?.startsWith('Bearer')
+  const bearer = req.headers.authorization?.startsWith('Bearer')
     ? req.headers.authorization.split(' ')[1]
     : undefined
 
-  if (!secret) {
+  if (!bearer) {
     await sessionController.deleteSession(req, res, next)
     throw ErrorApi.code(401, "Don't have auth header")
   }
@@ -17,17 +17,17 @@ export default asyncHandler(async (req, res, next) => {
   const agent = req.headers['user-agent']
   const { token } = req.cookies
 
-  const validToken = await sessionService.validateRefresh(token)
+  const access = await sessionService.validateAccess(bearer)
 
-  if (!validToken) {
+  if (!access) {
     await sessionController.deleteSession(req, res, next)
     throw ErrorApi.code(401, 'Token failed or expired')
   }
 
   const session = await sessionService.findSession({
-    userId: validToken.userId,
-    token,
-    secret,
+    userId: access.userId,
+    token: bearer,
+    secret: token,
     agent,
     ip
   })
@@ -37,6 +37,7 @@ export default asyncHandler(async (req, res, next) => {
     throw ErrorApi.code(401, 'Session failed')
   }
 
-  // здесь нужно создать токены заново
+  await sessionController.createSession(req, res, next, access.userId)
+
   next()
 })

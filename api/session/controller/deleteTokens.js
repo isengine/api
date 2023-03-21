@@ -12,4 +12,5 @@ export default asyncHandler(async (req, res, next) => {
   }
 
   res.clearCookie('token')
+  res.locals.token = ''
 })

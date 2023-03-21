@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import authService from '#api/auth/auth.service'
 import confirmController from '#api/confirm/confirm.controller'
 import sessionController from '#api/session/session.controller'
+import sessionMiddleware from '#api/session/session.middleware'
 import userService from '#api/user/user.service'
 import { validationResult } from 'express-validator'
 
@@ -40,8 +41,10 @@ export default asyncHandler(async (req, res, next) => {
   })
   //await confirmController.sendMail(login)
 
-  const token = await sessionController.createSession(req, res, next, auth.id)
-  //const token = await sessionController.createTokens(req, res, next, auth.id)
+  await sessionController.createSession(req, res, next, auth.id)
+  //await sessionController.createTokens(req, res, next, auth.id)
 
-  res.json({ ...auth, token })
+  res.locals.data = auth
+
+  sessionMiddleware.resApi(req, res)
 })

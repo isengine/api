@@ -23,5 +23,5 @@ export default asyncHandler(async (req, res, next, userId) => {
     httpOnly: true
   })
 
-  return token
+  res.locals.token = token
 })

@@ -1,7 +1,5 @@
 import asyncHandler from 'express-async-handler'
 import sessionService from '#api/session/session.service'
-import sessionController from '#api/session/session.controller'
-
 import ErrorApi from '#api/error/error.api'
 
 export default asyncHandler(async (req, res, next) => {

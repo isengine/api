@@ -36,5 +36,5 @@ export default asyncHandler(async (req, res, next) => {
     httpOnly: true
   })
 
-  return accessToken
+  res.locals.token = accessToken
 })

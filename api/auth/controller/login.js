@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import authService from '#api/auth/auth.service'
 import sessionController from '#api/session/session.controller'
+import sessionMiddleware from '#api/session/session.middleware'
 
 // @desc    Auth login
 // @route   POST /api/auth/login
@@ -20,8 +21,10 @@ export default asyncHandler(async (req, res, next) => {
     throw new Error('Authorization data is not correct')
   }
 
-  const token = await sessionController.createSession(req, res, next, auth.id)
-  //const token = await sessionController.createTokens(req, res, next, auth.id)
+  await sessionController.createSession(req, res, next, auth.id)
+  //await sessionController.createTokens(req, res, next, auth.id)
 
-  res.json({ ...auth, token })
+  res.locals.data = auth
+
+  sessionMiddleware.resApi(req, res)
 })
