@@ -1,69 +1,38 @@
+import authService from '#api/auth/auth.service'
+import userService from '#api/user/user.service'
+import sessionController from '#api/session/session.controller'
+import sessionMiddleware from '#api/session/session.middleware'
+
 export default async (req, res) => {
-  /*
-      const account = profile._json
-
-      console.log('account', account)
-      console.log('profile', profile)
-
-      let auth
-      auth = await authService.findByLogin(account.email)
-      if (!auth) {
-        auth = await authService.createByPassport({
-          login: account.email,
-          is_activated: true,
-          passportStrategy: profile.provider,
-          passportId: profile.id
-        })
-      }
-
-      let user
-      user = await userService.find(auth.id)
-      if (!user) {
-        await userService.create({
-          userId: auth.id,
-          email: account.email,
-          name: account.name,
-          avatar: account.avatar,
-          locale: account.locale
-        })
-      }
-*/
-
-  //const session = await sessionController.createSession(
-  //  req,
-  //  res,
-  //  undefined,
-  //  auth.id
-  //)
-  //res.json({ ...auth, session })
-
-  /*
-      - create auth
-      - activate auth
-      - create user
-      - create session
-      */
-
   const profile = req.user
-  //const account = profile._json
+  const account = profile._json
 
-  console.log('---\n---\n---'.red)
-  console.log('profile', profile)
-  //console.log('account', account)
+  //console.log('profile', profile)
 
-  //console.log('req', req)
-  //console.log('res', res)
+  let auth
+  auth = await authService.findByLogin(account.email)
+  if (!auth) {
+    auth = await authService.createByPassport({
+      login: account.email,
+      isActivated: true,
+      passportStrategy: profile.provider,
+      passportId: profile.id
+    })
+  }
 
-  //НУЖНЫ ВНЕШНИЕ ДАННЫЕ - auth.userId и др
-  //const session = await sessionController.createSession(
-  //  req,
-  //  res,
-  //  undefined,
-  //  auth.id
-  //)
-  //res.json({ ...auth, session })
+  await userService.upsert({
+    userId: auth.id,
+    email: account.email,
+    name: account.name,
+    avatar: account.picture,
+    locale: account.locale
+  })
 
-  //const session = await sessionController.createSession(req, res, undefined, auth.id)
-  //res.json({ ...auth, session })
+  await sessionController.createSession(req, res, undefined, auth.id)
+  //await sessionController.createTokens(req, res, undefined, auth.id)
+
+  res.locals.data = auth
+
+  sessionMiddleware.resApi(req, res)
   //res.redirect(process.env.API_BASE + '/passport/success')
 }

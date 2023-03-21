@@ -24,6 +24,14 @@ export default asyncHandler(async (req, res, next) => {
     throw ErrorApi.code(401, 'Token failed or expired')
   }
 
+  console.log('validate:', {
+    userId: access.userId,
+    token: bearer,
+    secret: token,
+    agent,
+    ip
+  })
+
   const session = await sessionService.findSession({
     userId: access.userId,
     token: bearer,

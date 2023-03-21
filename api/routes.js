@@ -40,6 +40,7 @@ router
   //.get(sessionMiddleware.validate, userController.getProfile)
   .get(userController.getProfile)
 
+router.route('/test/someone').get(testController.someone)
 router.route('/test/test').get(testController.test)
 router.route('/test/error').get(testController.testError)
 router.route('/test/code').get(testController.testCode)

@@ -1,3 +1,4 @@
+import someone from './controller/someone.js'
 import test from './controller/test.js'
 import testError from './controller/testError.js'
 import testCode from './controller/testCode.js'
@@ -5,6 +6,11 @@ import testThrow from './controller/testThrow.js'
 import testTryCatch from './controller/testTryCatch.js'
 
 class TestController {
+  async someone(req, res, next) {
+    const result = await someone(req, res, next)
+    return result
+  }
+
   async test(req, res, next) {
     const result = await test(req, res, next)
     return result

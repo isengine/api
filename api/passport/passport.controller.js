@@ -1,5 +1,6 @@
 import ErrorApi from '#api/error/error.api'
 import sessionController from '#api/session/session.controller'
+import sessionMiddleware from '#api/session/session.middleware'
 import googlePassport from './controller/google.js'
 
 class PassportController {
@@ -11,7 +12,9 @@ class PassportController {
   }
 
   async success(req, res, next) {
-    res.json('auth success')
+    //res.locals.data = auth
+    //res.json('auth success')
+    sessionMiddleware.resApi(req, res)
   }
 }
 
