@@ -15,7 +15,7 @@ dotenv.config()
 const server = express()
 
 const isDev = process.env.NODE_ENV === 'dev'
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 3000
 const message = `${'Server running \n'.bold} in ${
   (isDev ? 'development' : 'production').yellow
 } mode on ${port.yellow} port\n at ${`http://localhost:${port}`.bold}`
